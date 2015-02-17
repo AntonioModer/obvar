@@ -6,7 +6,7 @@ This is a small utility that helps in the creation of variables that can be chec
 local obv = require 'obvar'
 
 function love.load()
-  variable = obv(true) -- variable = true
+  variable = obv(true)
 end
 
 function love.update(dt)
