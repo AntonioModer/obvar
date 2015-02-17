@@ -1,25 +1,25 @@
 # obvar
 
-This is a small utility that helps in the creation of variables that can be checked for state changes in update functions. Code is worth a thousand words, so:
+This is a small utility module that helps in the creation of variables that can be checked for state changes in update functions. Code is worth a thousand words, so:
 
 ```lua
 local obv = require 'obvar'
 
 function love.load()
-  variable = obv(true)
+  var = obv(true)
 end
 
 function love.update(dt)
-  if var/false then print('var set to false') end
-  if var^true then print('var changed from true') end
+  if var+false then print('var changed to false') end
+  if var-true then print('var changed from true') end
 end
 
 function love.keypressed(key)
-  if key == ' ' then var = false end
+  if key == ' ' then var(false) end
 end
 ```
 
-Then the actions inside the conditions on update will only happen when on the frame var is set to false or is changed from being true, respectively. This means that when the `space` key is pressed both things will happen, and so `'var set to false'` and `'var changed from true'` will be printed once on that frame.
+Then the actions inside the conditions on update will only happen on the frame `var` is set to false or is changed from being true. This means that when the `space` key is pressed both things will happen, and so `'var changed to false'` and `'var changed from true'` will be printed once on that frame.
 
 ## Usage
 
@@ -53,7 +53,7 @@ Just call `obv` and pass in the value you want this variable to have.
 print(var.v)
 ```
 
-The variables value is on the `v` attribute.
+The variable's value is on the `v` attribute.
 
 ## Assigning a new value
 
@@ -66,8 +66,8 @@ This assigns the value `39` to the attribute `v` and also assigns the previous v
 ```lua
 -- var.v is 38
 var.v = 39 -- v is now 39 and prev_v is the previous prev_v, not 38
-if var/39 then print('enter 39') end -- prints 'enter 39' if the state was changed from something else to 39, succeeds
-if var^38 then print('exit 38') end -- prints 'exit 38' if the state was change from 38 to something else, fails because prev_v is not set properly
+if var+39 then print('enter 39') end -- prints 'enter 39' if the state was changed from something else to 39, succeeds
+if var-38 then print('exit 38') end -- prints 'exit 38' if the state was change from 38 to something else, fails because prev_v is not set properly
 obv:observe() -- now prev_v is set to 39 and the step where prev_v = 38 never happened
 ```
 
@@ -76,9 +76,29 @@ In comparison with assigning appropriately:
 ```lua
 -- var.v is 38
 var(39) -- v is now 39 and prev_v is 38
-if var/39 then print('enter 39') end -- prints 'enter 39' if the state was changed from something else to 39, succeeds
-if var^38 then print('exit 38') end -- prints 'exit 38' if the state was change from 38 to something else, succeeds
+if var+39 then print('enter 39') end -- prints 'enter 39' if the state was changed from something else to 39, succeeds
+if var-38 then print('exit 38') end -- prints 'exit 38' if the state was change from 38 to something else, succeeds
 obv:observe() -- now prev_v is set to 39
+```
+
+## Checking for state changes
+
+Use `+` to check for `enter` state changes and `-` for `exit` state changes:
+
+```lua
+function love.update(dt)
+  if var+true then print('var changed to true') end
+  if var-true then print('var changed from true') end
+end
+```
+
+Alternatively you can just use `enter` or `exit` directly:
+
+```lua
+function love.update(dt)
+  if var:enter(true) then print('var changed to true') end
+  if var:exit(true) then print('var changed from true') end
+end
 ```
 
 ## LICENSE
