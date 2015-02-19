@@ -111,7 +111,7 @@ enemy.o_attacker:set(self)
 
 Then in the enemy class, you wanna do something if some state change from the player happened:
 
-```
+```lua
 if self.o_attacker-nil then
   local player = self.o_attacker.v
   player:dealDamage(10)
