@@ -101,7 +101,7 @@ function love.update(dt)
 end
 ```
 
-## Deferred state changes and checks
+## Deferred state changes
 
 Sometimes you want to change some state after a previous state check but also make sure that that previous state check gets triggered. For instance, say in your game your entities are update in the following order: `Enemies -> Player -> obv:update()`. And then say that in the `Player` class, after doing something, you have to change the state of some `obvar` on an enemy:
 
