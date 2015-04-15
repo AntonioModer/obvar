@@ -41,6 +41,29 @@ return setmetatable({
                     return true 
                 end 
             end,
+            le = function(t, v)
+                if t._deferred then
+                    if t._deferred == 'false' then t._deferred = false end
+                    t.prev_v = t.v
+                    t.v = t._deferred
+                    t._deferred = nil
+                end
+                if t.prev_v > v and t.v <= v then 
+                    return true 
+                end 
+            end,
+            ge = function(t, v)
+                if t._deferred then
+                    if t._deferred == 'false' then t._deferred = false end
+                    t.prev_v = t.v
+                    t.v = t._deferred
+                    t._deferred = nil
+                end
+                if t.prev_v < v and t.v >= v then 
+                    return true 
+                end 
+            end,
+
         }, {
             __add = function(t, v) 
                 if t._deferred then
